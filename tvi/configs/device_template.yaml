@@ -1,0 +1,99 @@
+# configs/device_template.yaml
+# ------------------------------------------------------------------
+# Copy this file to configs/my_lab.yaml and fill in YOUR values.
+# The benchmark code reads ALL device parameters from this file.
+# Nothing is hardcoded in the Python source.
+# ------------------------------------------------------------------
+
+scanner:
+  # Human-readable label — used only for logging and report headers.
+  label: "MyScannerModel"
+
+  # Optical resolution actually used for capture (dpi).
+  # Must match the resolution setting used when scanning the sheets.
+  capture_dpi: 1200
+
+  # Bit depth per channel of the raw TIFF (8 or 16).
+  bit_depth: 16
+
+  # Which scanner channel to read for each ink separation.
+  # Options: R, G, B  (index 0, 1, 2 of the RGB TIFF).
+  channel_map:
+    K: 1   # Green channel has broadband sensitivity; good for black
+    C: 0   # Red channel is complementary to Cyan
+    M: 1   # Green channel is complementary to Magenta
+    Y: 2   # Blue channel is complementary to Yellow
+
+  # Maximum raw integer value for this bit depth (2^bit_depth - 1).
+  # Leave as null to auto-compute from bit_depth.
+  max_raw_value: null
+
+printer:
+  # Human-readable label.
+  label: "MyPrinterModel"
+
+  # Nominal addressable resolution (dpi).
+  print_dpi: 1200
+
+  # Ink/toner type: "inkjet_dye", "inkjet_pigment", "electrophotographic", "offset"
+  # Used only to set sensible initial guesses for Yule-Nielsen n.
+  ink_type: "inkjet_pigment"
+
+  # Substrate description (used only for logging).
+  substrate: "plain_paper_90gsm"
+
+  # Channels present on this printer (subset of C,M,Y,K,O,G,V).
+  channels: [C, M, Y, K]
+
+substrate:
+  # Paper white point measured under the benchmark illuminant.
+  # Leave null to measure from the 0% patch on the tone ramp.
+  paper_white_reflectance: null
+
+  # Paper black (100% ink) reflectance estimate.
+  # Leave null to measure from the 100% patch.
+  paper_black_reflectance: null
+
+measurement:
+  # Tone ramp steps to print and scan (percent, integer).
+  tone_steps: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+  # Number of sheet replicates per method.
+  n_sheets: 3
+
+  # Number of scan replicates per sheet.
+  n_scans: 3
+
+  # Patch interior erosion margin (fraction of patch side).
+  # Avoids edge effects from cutting / registration.
+  patch_erosion_margin: 0.10
+
+  # Minimum number of fiducial marks for geometric alignment.
+  n_fiducials: 4
+
+calibration:
+  # Step-wedge nominal reflectance values (0–1) used for scanner linearization.
+  # Must match the physical wedge included on each calibration target sheet.
+  step_wedge_nominals: [0.05, 0.10, 0.20, 0.30, 0.40, 0.50,
+                        0.60, 0.70, 0.80, 0.90, 0.95]
+
+  # Polynomial degree for scanner linearization fit.
+  linearization_poly_degree: 2
+
+yule_nielsen:
+  # Tone steps used for Yule-Nielsen n fitting (high coverage only).
+  fit_steps: [70, 80, 90]
+
+  # Search range for n.
+  n_min: 1.0
+  n_max: 4.0
+
+  # Initial guess for n (overridden by ink_type heuristic if null).
+  n_init: null
+
+output:
+  # Directory for CSV exports and PNG figures.
+  results_dir: "results"
+
+  # Confidence level for confidence intervals.
+  ci_level: 0.95

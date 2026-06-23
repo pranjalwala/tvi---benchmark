@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tvi-benchmark"
+version = "0.1.0"
+description = "Hardware-agnostic TVI/Dot-Gain benchmark module"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "scikit-image>=0.22",
+    "opencv-python-headless>=4.9",
+    "tifffile>=2024.1",
+    "colour-science>=0.4.4",
+    "matplotlib>=3.8",
+    "pandas>=2.2",
+    "pyyaml>=6.0",
+    "imageio>=2.34",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+    "ruff"
+]
+
+[tool.setuptools.packages.find]
+include = ["tvi*"]

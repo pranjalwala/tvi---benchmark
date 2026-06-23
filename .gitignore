@@ -1,0 +1,28 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated benchmark outputs
+generated_targets/
+results/
+demo_data/
+dataset/
+scans/
+
+# Images and exports
+*.png
+*.tif
+*.tiff
+*.csv
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
